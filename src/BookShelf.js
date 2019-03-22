@@ -25,7 +25,9 @@ class BookShelf extends Component{
                   <BookDisplay
                     book={book}
                     shelfId ={shelf.id}
-                    shelves = {shelves}/>
+                    shelves = {shelves}
+                    handleBookShelfChange ={this.props.handleBookShelfChange}
+                  />
                 </li>
               ))}
 

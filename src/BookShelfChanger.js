@@ -6,7 +6,11 @@ class BookShelfChanger extends Component {
 render () {
 
 
-  const doClick = (newShelfId) => {console.log(`clicked the option ${newShelfId}`)};
+/*  const doClick = (newShelfId) => {console.log(`clicked the option ${newShelfId}
+  for book ${this.props.bookTitle}`)};*/
+  const bookTitle = this.props.bookTitle;
+  const doClick = (newShelfId) => {this.props.handleBookShelfChange(
+    {newShelfId}, {bookTitle})};
 
   return (
 
@@ -21,17 +25,9 @@ render () {
       )}
       <option key="none" value="none" onClick={() => doClick('none')}>None</option>
 
-
-
-{/*      <option value="move" disabled>Move to...</option>
-      <option value="currentlyReading">Currently Reading</option>
-      <option value="wantToRead">Want to Read</option>
-      <option value="read" selected >Read</option>
-      <option value="none">None</option>*/}
     </select>
   </div>
 );
-}
-}
+}}
 
 export default BookShelfChanger;

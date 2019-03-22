@@ -86,6 +86,17 @@ class BooksApp extends React.Component {
       this.setState(() => ({showSearchPage: false}));
     };
 
+    const handleBookShelfChange = (newShelfId, bookTitle) => {
+        /*TODO: find a method to amend array of objects */
+
+
+      /*      const booklist2 = bookList.map((book)  => (book.title === 'The Hobbit') && (book.shelf = 'XXXXX'))
+            for (book of bookList){
+              console.log(`${book.shelf}: for:  ${book.title}`)
+            }*/
+    };
+
+
 
     return (
       <div className="app">
@@ -105,9 +116,10 @@ class BooksApp extends React.Component {
 
                   <BookShelf shelf = {shelf}
                            bookList = {this.state.bookList}
-                             shelves = {this.state.shelves}/>
+                             shelves = {this.state.shelves}
+                             handleBookShelfChange ={handleBookShelfChange}
+                  />
                 ))}
-
 
               </div>
             </div>
