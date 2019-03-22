@@ -9,7 +9,7 @@ class BookShelf extends Component{
 
   render(){
 
-    const {shelf, bookList, shelves} = this.props;
+    const {shelf, books, shelves} = this.props;
 
 
     return(
@@ -19,9 +19,9 @@ class BookShelf extends Component{
         <div className="bookshelf-books">
           <ol className="books-grid">
 
-              {bookList.filter((book) => book.shelf === shelf.id).map((book) => (
+              {books.filter((book) => book.shelf === shelf.id).map((book) => (
 
-                <li key={book.title}>
+                <li key={book.id}>
                   <BookDisplay
                     book={book}
                     shelfId ={shelf.id}

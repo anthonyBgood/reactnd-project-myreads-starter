@@ -11,9 +11,10 @@ class BookDisplay extends Component {
         <div className="book-top">
           <div className="book-cover" style={{
             width: 128, height: 192,
-            backgroundImage: `url(${this.props.book.url})`}}
+            backgroundImage: `url(${this.props.book.imageLinks.smallThumbnail})`}}
           ></div>
           <BookShelfChanger
+            bookId ={this.props.book.id}
             bookTitle ={this.props.book.title}
             shelfId={this.props.shelfId}
             shelves = {this.props.shelves}

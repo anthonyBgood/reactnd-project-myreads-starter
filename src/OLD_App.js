@@ -29,7 +29,7 @@ class BooksApp extends React.Component {
       },
     ],
 
-    bookList: [
+    books: [
       {
         title: 'To Kill a Mockingbird',
         author: 'Harper Lee',
