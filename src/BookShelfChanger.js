@@ -7,8 +7,7 @@ render () {
 
   const {book, shelves, doChangeBookShelf} = this.props;
 
-  const doClick = (newShelfId) => {doChangeBookShelf(
-    {newShelfId}, book.id)};
+  const doClick = (shelf) => {doChangeBookShelf(book,shelf)};
 
   return (
 

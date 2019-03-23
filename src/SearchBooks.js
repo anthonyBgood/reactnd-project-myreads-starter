@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
-import BookDisplay from "./BookShelf";
 
 import BookShow from './BookShow';
 
@@ -10,6 +9,7 @@ class SearchBooks extends Component{
 
   state ={
     searchBooks: [],
+    query:'',
   };
 
   componentDidMount(){
@@ -21,9 +21,31 @@ class SearchBooks extends Component{
       })
   }
 
+  updateQuery = (query) => {
+    this.setState(() => ({
+      query: query.trim()
+    }));
+    BooksAPI.search(query).then((books) => {
+      this.setState(() => ({
+        searchBooks: books
+      }))
+    })
+  };
+
   render(){
 
     const {shelves, doChangeBookShelf} = this.props;
+    const query = this.state.query;
+
+
+    const searchResultsBooks = () => {
+        BooksAPI.search(query).then((books) => {
+          this.setState(() => ({
+            searchBooks: books
+          }))
+        })
+      }
+    ;
 
     return(
 
@@ -43,28 +65,38 @@ class SearchBooks extends Component{
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-            <input type="text" placeholder="Search by title or author"/>
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={query}
+              onChange={(event) => this.updateQuery(event.target.value)}
+            />
 
          </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
+          {(this.state.searchBooks.length<1)?
+            (
+          <div> NO MATCHES</div>
+            ):(
+            <ol className="books-grid">
 
 
-            {this.state.searchBooks.map((book) => (
+              {this.state.searchBooks.map((book) => (
 
-              <li key={book.id}>
-                <BookShow
-                  book = {book}
-                  shelves = {shelves}
-                  doChangeBookShelf = {doChangeBookShelf}
+                <li key={book.id}>
+                  <BookShow
+                    book = {book}
+                    shelves = {shelves}
+                    doChangeBookShelf = {doChangeBookShelf}
 
-                />
+                  />
 
-              </li>
-            ))}
+                </li>
+              ))}
 
-          </ol>
+            </ol>
+          )}
         </div>
       </div>
 

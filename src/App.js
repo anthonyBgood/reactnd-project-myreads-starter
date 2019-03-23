@@ -40,16 +40,56 @@ class BooksApp extends React.Component {
 
   render() {
 
-    const changeBookShelf = (newShelfId, bookId) => {
-        /*TODO: find a method to amend array of objects */
+    const changeBookShelf = (book, shelf) => {
+      amendBookShelf(book, shelf);
+      (shelf === 'none'? removeBook(book): addBook(book));
 
-      // NOTE: I've changed the parameter to bookId..
+    }
 
-      /*      const books2 = books.map((book)  => (book.title === 'The Hobbit') && (book.shelf = 'XXXXX'))
-            for (book of books){
-              console.log(`${book.shelf}: for:  ${book.title}`)
-            }*/
+    const amendBookShelf = (book, shelf) => {
+
+      //  the API update call
+      BooksAPI.update(book, shelf)
+        .then(
+
+          //  amend the state record of bookshelf
+          this.setState(currentState => {
+            const booksArray = currentState.books.map((currentBook) => {
+              if (book.id === currentBook.id) {
+                currentBook.shelf = shelf
+              }
+              return currentBook;
+            });
+            return {books: booksArray}
+          })
+        )
     };
+
+    // adds the book to state if it isn't already there
+    const addBook = (book) => {
+
+      const haveBook = this.state.books.filter((filterBook) => filterBook.id === book.id)
+
+      if(haveBook.length <1) {
+
+        BooksAPI.get(book.id)
+          .then((APIbook) => {
+            this.setState((currentState) => ({
+              books: currentState.books.concat([APIbook])
+            }))
+            }
+          )
+      }
+    }
+
+    // remove books moved to shelf 'none'
+    const removeBook = (book) => {
+      this.setState((currentState) => ({
+        books: currentState.books.filter((c) => {
+          return c.book !== book.id
+        })
+      }))
+    }
 
 
 
@@ -79,7 +119,8 @@ class BooksApp extends React.Component {
                 <div>
                   {this.state.shelves.map((shelf) => (
 
-                    <BookShelf shelf = {shelf}
+                    <BookShelf
+                             shelf = {shelf}
                              books = {this.state.books}
                              shelves = {this.state.shelves}
                              doChangeBookShelf = {changeBookShelf}
