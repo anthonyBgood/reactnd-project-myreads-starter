@@ -1,10 +1,29 @@
 
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import * as BooksAPI from "./BooksAPI";
+import BookDisplay from "./BookShelf";
+
+import BookShow from './BookShow';
 
 class SearchBooks extends Component{
 
+  state ={
+    searchBooks: [],
+  };
+
+  componentDidMount(){
+    BooksAPI.search('Android')
+      .then((books) => {
+        this.setState(() =>({
+          searchBooks: books
+        }))
+      })
+  }
+
   render(){
+
+    const {shelves, doChangeBookShelf} = this.props;
 
     return(
 
@@ -29,7 +48,23 @@ class SearchBooks extends Component{
          </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid"></ol>
+          <ol className="books-grid">
+
+
+            {this.state.searchBooks.map((book) => (
+
+              <li key={book.id}>
+                <BookShow
+                  book = {book}
+                  shelves = {shelves}
+                  doChangeBookShelf = {doChangeBookShelf}
+
+                />
+
+              </li>
+            ))}
+
+          </ol>
         </div>
       </div>
 

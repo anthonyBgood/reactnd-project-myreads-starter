@@ -40,7 +40,7 @@ class BooksApp extends React.Component {
 
   render() {
 
-    const handleBookShelfChange = (newShelfId, bookId) => {
+    const changeBookShelf = (newShelfId, bookId) => {
         /*TODO: find a method to amend array of objects */
 
       // NOTE: I've changed the parameter to bookId..
@@ -59,7 +59,11 @@ class BooksApp extends React.Component {
 
           <Route path='/search' render={() =>(
             <div>
-              <SearchBooks />
+              <SearchBooks
+                shelves = {this.state.shelves}
+                doChangeBookShelf = {changeBookShelf}
+
+              />
             </div>
           )}/>
 
@@ -78,7 +82,7 @@ class BooksApp extends React.Component {
                     <BookShelf shelf = {shelf}
                              books = {this.state.books}
                              shelves = {this.state.shelves}
-                             handleBookShelfChange ={handleBookShelfChange}
+                             doChangeBookShelf = {changeBookShelf}
                     />
                   ))}
                 </div>

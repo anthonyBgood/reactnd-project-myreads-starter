@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import BookShelfChanger from './BookShelfChanger'
+import PropTypes from 'prop-types'
 
 class BookDisplay extends Component {
 
+  static propTypes = {
+    book: PropTypes.array.isRequired,
+    shelfId: PropTypes.string.isRequired,
+    shelves: PropTypes.array.isRequired,
+    doChangeBookShelf: PropTypes.func,
+  };
 
   render(){
 
@@ -14,11 +21,9 @@ class BookDisplay extends Component {
             backgroundImage: `url(${this.props.book.imageLinks.smallThumbnail})`}}
           ></div>
           <BookShelfChanger
-            bookId ={this.props.book.id}
-            bookTitle ={this.props.book.title}
-            shelfId={this.props.shelfId}
+            book ={this.props.book}
             shelves = {this.props.shelves}
-            handleBookShelfChange ={this.props.handleBookShelfChange}
+            handleBookShelfChange ={this.props.doChangeBookShelf}
           />
         </div>
         <div className="book-title">{this.props.book.title}</div>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import BookDisplay from './BookDisplay';
+//import BookDisplay from './BookDisplay';
+import BookShow from './BookShow'
 
 
 class BookShelf extends Component{
-
 
 
 
@@ -22,11 +22,11 @@ class BookShelf extends Component{
               {books.filter((book) => book.shelf === shelf.id).map((book) => (
 
                 <li key={book.id}>
-                  <BookDisplay
+                  <BookShow
                     book={book}
                     shelfId ={shelf.id}
                     shelves = {shelves}
-                    handleBookShelfChange ={this.props.handleBookShelfChange}
+                    doChangeBookShelf ={this.props.doChangeBookShelf}
                   />
                 </li>
               ))}
