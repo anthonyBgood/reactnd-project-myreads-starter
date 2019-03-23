@@ -1,19 +1,16 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import { Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import SearchBooks from './SearchBooks';
 import BookShelf from './BookShelf';
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false,
+
+    books: [],
 
     shelves: [
       {
@@ -30,7 +27,6 @@ class BooksApp extends React.Component {
       },
     ],
 
-    books: []
   };
 
   componentDidMount(){
@@ -42,18 +38,12 @@ class BooksApp extends React.Component {
       })
   }
 
-
   render() {
-
-    const toggleSearchPage = () => {
-      this.setState(() => ({showSearchPage: false}));
-    };
 
     const handleBookShelfChange = (newShelfId, bookId) => {
         /*TODO: find a method to amend array of objects */
 
       // NOTE: I've changed the parameter to bookId..
-
 
       /*      const books2 = books.map((book)  => (book.title === 'The Hobbit') && (book.shelf = 'XXXXX'))
             for (book of books){
@@ -65,34 +55,44 @@ class BooksApp extends React.Component {
 
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div>
-            <SearchBooks toggleSearchPage = {toggleSearchPage}/>
-          </div>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
+
+
+          <Route path='/search' render={() =>(
+            <div>
+              <SearchBooks />
             </div>
-            <div className="list-books-content">
-              <div>
+          )}/>
 
-                {this.state.shelves.map((shelf) => (
+          <Route exact path='/' render={() =>
+          (
+            <div className="list-books">
 
-                  <BookShelf shelf = {shelf}
-                           books = {this.state.books}
-                           shelves = {this.state.shelves}
-                           handleBookShelfChange ={handleBookShelfChange}
-                  />
-                ))}
-
+              <div className="list-books-title">
+                <h1>MyReads</h1>
               </div>
+
+              <div className="list-books-content">
+                <div>
+                  {this.state.shelves.map((shelf) => (
+
+                    <BookShelf shelf = {shelf}
+                             books = {this.state.books}
+                             shelves = {this.state.shelves}
+                             handleBookShelfChange ={handleBookShelfChange}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="open-search">
+                <Link
+                  to='/search'
+                  className='open-search-link'
+                >Add a book</Link>
+              </div>
+
             </div>
-            <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
-            </div>
-          </div>
-        )}
+          )}/>
       </div>
     )
   }

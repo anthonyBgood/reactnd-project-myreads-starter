@@ -8,7 +8,7 @@ render () {
 
 /*  const doClick = (newShelfId) => {console.log(`clicked the option ${newShelfId}
   for book ${this.props.bookTitle}`)};*/
-  const bookTitle = this.props.bookTitle;
+
   const bookId = this.props.bookId;
   const doClick = (newShelfId) => {this.props.handleBookShelfChange(
     {newShelfId}, {bookId})};
