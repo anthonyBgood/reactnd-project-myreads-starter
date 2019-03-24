@@ -5,6 +5,7 @@ import * as BooksAPI from "./BooksAPI";
 
 import BookShow from './BookShow';
 
+
 class SearchBooks extends Component{
 
   state ={
@@ -12,9 +13,12 @@ class SearchBooks extends Component{
     query:'',
   };
 
+  booksBeenFound= false;
+
   componentDidMount(){
     BooksAPI.search('Android')
       .then((books) => {
+        this.booksBeenFound = !!(books.length);
         this.setState(() =>({
           searchBooks: books
         }))
@@ -25,27 +29,20 @@ class SearchBooks extends Component{
     this.setState(() => ({
       query: query.trim()
     }));
-    BooksAPI.search(query).then((books) => {
-      this.setState(() => ({
-        searchBooks: books
-      }))
+    BooksAPI.search(query)
+      .then((books) => {
+        console.log('books length is: ' + books.length);
+        this.booksBeenFound = !!(books.length);
+        this.setState(() => ({searchBooks: books}))
     })
   };
+
 
   render(){
 
     const {shelves, doChangeBookShelf} = this.props;
     const query = this.state.query;
 
-
-    const searchResultsBooks = () => {
-        BooksAPI.search(query).then((books) => {
-          this.setState(() => ({
-            searchBooks: books
-          }))
-        })
-      }
-    ;
 
     return(
 
@@ -75,28 +72,24 @@ class SearchBooks extends Component{
          </div>
         </div>
         <div className="search-books-results">
-          {(this.state.searchBooks.length<1)?
-            (
-          <div> NO MATCHES</div>
-            ):(
-            <ol className="books-grid">
 
+          { this.booksBeenFound  || (<div> NO MATCHES</div>)}
 
-              {this.state.searchBooks.map((book) => (
+          { this.booksBeenFound  && (<ol className="books-grid">
+            {this.state.searchBooks.map((book) => (
 
-                <li key={book.id}>
-                  <BookShow
-                    book = {book}
-                    shelves = {shelves}
-                    doChangeBookShelf = {doChangeBookShelf}
+              <li key={book.id}>
+                <BookShow
+                  book = {book}
+                  shelves = {shelves}
+                  doChangeBookShelf = {doChangeBookShelf}
 
-                  />
+                />
 
-                </li>
-              ))}
+              </li>
+            ))}
+          </ol>)}
 
-            </ol>
-          )}
         </div>
       </div>
 
