@@ -1,11 +1,12 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
 
 import SearchBooks from './SearchBooks';
-import BookShelf from './BookShelf';
+import SearchOpenSearchLink from './SearchOpenSearchLink';
+import ListMyBooks from './ListMyBooks';
 
 class BooksApp extends React.Component {
   state = {
@@ -46,14 +47,16 @@ class BooksApp extends React.Component {
 
     }
 
+    //  amends the book's shelf record
     const amendBookShelf = (book, shelf) => {
 
-      //  the API update call
+      //  amend the db with API call
       BooksAPI.update(book, shelf)
         .then(
 
-          //  amend the state record of bookshelf
+      // amend local state record
           this.setState(currentState => {
+            //map provides whole array, but amends the shelf along the way
             const booksArray = currentState.books.map((currentBook) => {
               if (book.id === currentBook.id) {
                 currentBook.shelf = shelf
@@ -65,13 +68,14 @@ class BooksApp extends React.Component {
         )
     };
 
-    // adds the book to state if it isn't already there
+    // adds the new book from the API into state if it isn't already there
     const addBook = (book) => {
 
       const haveBook = this.state.books.filter((filterBook) => filterBook.id === book.id)
 
       if(haveBook.length <1) {
 
+        // add the API version of the book object
         BooksAPI.get(book.id)
           .then((APIbook) => {
             this.setState((currentState) => ({
@@ -82,7 +86,7 @@ class BooksApp extends React.Component {
       }
     }
 
-    // remove books moved to shelf 'none'
+    // remove book for state - for when book's shelf has been set to shelf 'none'
     const removeBook = (book) => {
       this.setState((currentState) => ({
         books: currentState.books.filter((c) => {
@@ -91,51 +95,28 @@ class BooksApp extends React.Component {
       }))
     }
 
-
-
     return (
       <div className="app">
-
 
           <Route path='/search' render={() =>(
             <div>
               <SearchBooks
                 shelves = {this.state.shelves}
                 doChangeBookShelf = {changeBookShelf}
-
               />
             </div>
           )}/>
 
           <Route exact path='/' render={() =>
           (
-            <div className="list-books">
+            <div>
+              <ListMyBooks
+              doChangeBookShelf={changeBookShelf}
+              books={this.state.books}
+              shelves={this.state.shelves}
+              />
 
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-
-              <div className="list-books-content">
-                <div>
-                  {this.state.shelves.map((shelf) => (
-
-                    <BookShelf
-                             shelf = {shelf}
-                             books = {this.state.books}
-                             shelves = {this.state.shelves}
-                             doChangeBookShelf = {changeBookShelf}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="open-search">
-                <Link
-                  to='/search'
-                  className='open-search-link'
-                >Add a book</Link>
-              </div>
-
+              <SearchOpenSearchLink />
             </div>
           )}/>
       </div>
