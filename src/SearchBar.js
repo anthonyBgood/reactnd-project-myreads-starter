@@ -25,6 +25,7 @@ function SearchBar(props){
       </div>
     </div>
 
+
   )
 }
 

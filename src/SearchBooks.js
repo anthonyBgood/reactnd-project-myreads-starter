@@ -18,9 +18,10 @@ class SearchBooks extends Component{
     BooksAPI.search('Android')
       .then((books) => {
         this.booksBeenFound = !!(books.length);
+        this.mergeShelfRecords(books, this.props.books);
         this.setState(() =>({
           searchBooks: books
-        }))
+        }));
       })
   }
 
@@ -30,12 +31,26 @@ class SearchBooks extends Component{
     }));
     BooksAPI.search(query)
       .then((books) => {
-        console.log('books length is: ' + books.length);
         this.booksBeenFound = !!(books.length);
-        this.setState(() => ({searchBooks: books}))
+        this.mergeShelfRecords(books, this.props.books);
+        this.setState(() => ({searchBooks: books}));
     })
   };
 
+  mergeShelfRecords = (Sbooks, myBooks) => {
+    for (let sBk of  Sbooks){
+      console.log(sBk.title);
+      for (let bk of  myBooks){
+        //console.log('matched :' + bk.title)
+        if(bk.id == sBk.id){
+          sBk.shelf=bk.shelf;
+          console.log('matched :' + bk.title)
+        }
+      }
+    }
+  }
+
+  searchChangeShelfrecords
 
   render(){
 

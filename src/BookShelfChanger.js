@@ -26,6 +26,7 @@ function BookShelfChanger(props){
         <option
           key="none"
           value="none"
+          selected="select"
           onClick={() => doClick('none')}>None
         </option>
 
