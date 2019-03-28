@@ -32,7 +32,9 @@ class SearchBooks extends Component{
     BooksAPI.search(query)
       .then((books) => {
         this.booksBeenFound = !(books.length === undefined);
-        this.mergeShelfRecords(books, this.props.books);
+        if(this.booksBeenFound) {
+          this.mergeShelfRecords(books, this.props.books);
+        }
         this.setState(() => ({searchBooks: books}));
     })
   };
