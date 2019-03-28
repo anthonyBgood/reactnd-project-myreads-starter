@@ -47,11 +47,10 @@ class BooksApp extends React.Component {
 
   render() {
 
-    // Amend makes changes to db (and existing state),
-    // add and remove work with the state variable
 
-    const OLD_changeBookShelf = (book, shelf) => {
-      //  amend the db with API call
+//  amend the db with API call - runs too slow
+/*   const OLD_changeBookShelf = (book, shelf) => {
+
       BooksAPI.update(book, shelf)
         .then(
           BooksAPI.getAll()
@@ -60,9 +59,10 @@ class BooksApp extends React.Component {
             }
             )
         )
+    }*/
 
-
-    }
+    // Amend makes changes to db (and existing objects in the  state array),
+    // add and remove adjusts the local state variable
     const changeBookShelf = (book, shelf) => {
       amendBookShelf(book, shelf);
       (shelf === 'none'? removeBook(book): addBook(book));
@@ -94,7 +94,6 @@ class BooksApp extends React.Component {
     const addBook = (book) => {
 
       const haveBook = this.state.books.filter((filterBook) => filterBook.id === book.id)
-
       if(haveBook.length <1) {
 
         // add the API version of the book object
