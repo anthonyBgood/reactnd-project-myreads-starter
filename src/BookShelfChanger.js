@@ -8,7 +8,7 @@ function BookShelfChanger(props){
   return (
 
     <div className="book-shelf-changer">
-      <select value={(book.hasOwnProperty('shelf')? book.shelf: 'none')}>
+      <select defaultValue={(book.hasOwnProperty('shelf')? book.shelf: 'none')}>
         <option
           key="move"
           value="move"
@@ -26,7 +26,6 @@ function BookShelfChanger(props){
         <option
           key="none"
           value="none"
-          selected="select"
           onClick={() => doClick('none')}>None
         </option>
 

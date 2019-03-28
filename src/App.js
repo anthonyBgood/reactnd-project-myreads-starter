@@ -51,22 +51,20 @@ class BooksApp extends React.Component {
     // Amend makes changes to db (and existing state),
     // add and remove work with the state variable
 
-    const changeBookShelf = (book, shelf) => {
+    const OLD_changeBookShelf = (book, shelf) => {
       //  amend the db with API call
-      console.log('start update');
       BooksAPI.update(book, shelf)
         .then(
-          console.log('start AddAll'),
           BooksAPI.getAll()
             .then((books) =>{
               this.AddAllBooksToState(books);
-              console.log('finished AddAll');}
+            }
             )
         )
 
 
     }
-    const OLD_changeBookShelf = (book, shelf) => {
+    const changeBookShelf = (book, shelf) => {
       amendBookShelf(book, shelf);
       (shelf === 'none'? removeBook(book): addBook(book));
 
@@ -114,9 +112,7 @@ class BooksApp extends React.Component {
     // remove book for state - for when book's shelf has been set to shelf 'none'
     const removeBook = (book) => {
       this.setState((currentState) => ({
-        books: currentState.books.filter((c) => {
-          return c.book !== book.id
-        })
+        books: currentState.books.filter((c) => c.id !== book.id)
       }))
     }
 
