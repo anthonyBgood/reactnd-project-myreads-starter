@@ -59,9 +59,23 @@ class SearchBooks extends Component{
 
       if (!(book === undefined)){
         this.props.doChangeBookShelf(book,shelf);
+
+
+        // amend local state record (if not getting changed to none)
+        this.setState(currentState => {
+          //map provides whole array, but amends the shelf along the way
+          const booksArray = currentState.searchBooks.map((currentBook) => {
+            if (book.id === currentBook.id) {
+              !(shelf === 'none')?
+                currentBook.shelf = shelf:
+                currentBook.shelf = null
+            }
+            return currentBook;
+          });
+          return {books: booksArray}
+        })
+
       }
-
-
 
     };
 
