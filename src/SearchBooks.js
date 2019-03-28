@@ -48,10 +48,23 @@ class SearchBooks extends Component{
   };
 
 
+
+
   render(){
 
-    const {shelves, doChangeBookShelf} = this.props;
+    const {shelves} = this.props;
     const query = this.state.query;
+
+    const searchChangeBookShelf = (book,shelf) => {
+
+      if (!(book === undefined)){
+        this.props.doChangeBookShelf(book,shelf);
+      }
+
+
+
+    };
+
 
     return(
 
@@ -59,7 +72,7 @@ class SearchBooks extends Component{
         <SearchBar query={query}
                    updateQuery={this.updateQuery}/>
 
-        <SearchResults doChangeBookShelf = {doChangeBookShelf }
+        <SearchResults doChangeBookShelf = {searchChangeBookShelf}
                        shelves ={shelves}
                        searchBooks={this.state.searchBooks}
                        booksBeenFound={this.booksBeenFound} />
