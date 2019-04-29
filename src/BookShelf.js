@@ -6,7 +6,7 @@ function BookShelf (props) {
     const {shelf, books, shelves, doChangeBookShelf} = props;
 
     return(
-      <div key={shelf.id} className="bookshelf">
+      <div className="bookshelf">
         <h2 className="bookshelf-title"> {shelf.name} </h2>
         <div className="bookshelf-books">
 

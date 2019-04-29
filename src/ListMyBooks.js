@@ -20,12 +20,14 @@ function ListMyBooks(props){
 
           {shelves.map((shelf) => (
 
-            <BookShelf
-              shelf = {shelf}
-              books = {books}
-              shelves = {shelves}
-              doChangeBookShelf = {doChangeBookShelf}
-            />
+            <div key={shelf.id} className="bookshelf">
+              <BookShelf
+                shelf = {shelf}
+                books = {books}
+                shelves = {shelves}
+                doChangeBookShelf = {doChangeBookShelf}
+              />
+            </div>
           ))}
 
         </div>

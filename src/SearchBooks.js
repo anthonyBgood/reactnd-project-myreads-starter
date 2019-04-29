@@ -42,7 +42,8 @@ class SearchBooks extends Component{
   mergeShelfRecords = (Sbooks, myBooks) => {
     for (let sBk of  Sbooks){
       for (let bk of  myBooks){
-        if(bk.id == sBk.id){
+
+        if(bk.id === sBk.id){
           sBk.shelf=bk.shelf;
         }
       }

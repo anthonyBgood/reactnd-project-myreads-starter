@@ -8,25 +8,28 @@ function BookShelfChanger(props){
   return (
 
     <div className="book-shelf-changer">
-      <select defaultValue={(book.hasOwnProperty('shelf')? book.shelf: 'none')}>
+      <select
+        onChange={(event) => doClick(event.target.value)}
+        defaultValue={(book.hasOwnProperty('shelf')? book.shelf: 'none')}>
         <option
           key="move"
           value="move"
-          disabled>Move to...
+          disabled
+        >Move to...
         </option>
 
         {shelves.map((shelf) =>
           <option
             key={shelf.id}
             value={shelf.id}
-            onClick={() => doClick(shelf.id)}>{shelf.name}
+          >{shelf.name}
           </option>
         )}
 
         <option
           key="none"
           value="none"
-          onClick={() => doClick('none')}>None
+        >None
         </option>
 
       </select>
@@ -34,3 +37,5 @@ function BookShelfChanger(props){
   );
 }
 export default BookShelfChanger;
+
+// onClick={() => doClick('none')}>None
