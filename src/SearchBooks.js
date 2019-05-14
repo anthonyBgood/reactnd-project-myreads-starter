@@ -1,4 +1,6 @@
 
+//cSpell: words Sbooks
+
 import React, { Component } from 'react';
 import * as BooksAPI from "./BooksAPI";
 
@@ -31,11 +33,17 @@ class SearchBooks extends Component{
     }));
     BooksAPI.search(query)
       .then((books) => {
-        this.booksBeenFound = !(books.length === undefined);
+        // check anything has been returned
+        this.booksBeenFound = !(books === undefined);
+        // check array has contents
+        if(this.booksBeenFound) {
+          this.booksBeenFound = !(books.length === undefined);
+        }
         if(this.booksBeenFound) {
           this.mergeShelfRecords(books, this.props.books);
         }
         this.setState(() => ({searchBooks: books}));
+        
     })
   };
 
