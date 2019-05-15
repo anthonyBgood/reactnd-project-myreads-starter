@@ -14,16 +14,28 @@ class SearchBooks extends Component{
     query:'',
   };
 
-  booksBeenFound= false;
+  booksBeenFound = false;
+
+  setBooksBeenFound = (books) => {
+    // bit to check if the .then returned a books array this isn't != undefined
+    this.booksBeenFound = !((books === undefined || books.length === undefined));
+    return this.booksBeenFound
+  }
+ 
+
+  updateSearchBooks = (books) =>{
+    // bit to handle updating after .then returned
+    if(this.setBooksBeenFound(books)) {
+      this.mergeShelfRecords(books, this.props.books);
+    }
+    this.setState(() => ({searchBooks: books}));
+
+  }
 
   componentDidMount(){
-    BooksAPI.search('Android')
+    BooksAPI.search()
       .then((books) => {
-        this.booksBeenFound = !(books.length === undefined);
-        this.mergeShelfRecords(books, this.props.books);
-        this.setState(() =>({
-          searchBooks: books
-        }));
+        this.updateSearchBooks(books)
       })
   }
 
@@ -33,18 +45,8 @@ class SearchBooks extends Component{
     }));
     BooksAPI.search(query)
       .then((books) => {
-        // check anything has been returned
-        this.booksBeenFound = !(books === undefined);
-        // check array has contents
-        if(this.booksBeenFound) {
-          this.booksBeenFound = !(books.length === undefined);
-        }
-        if(this.booksBeenFound) {
-          this.mergeShelfRecords(books, this.props.books);
-        }
-        this.setState(() => ({searchBooks: books}));
-        
-    })
+        this.updateSearchBooks(books)
+      })
   };
 
   mergeShelfRecords = (Sbooks, myBooks) => {
