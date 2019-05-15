@@ -16,16 +16,17 @@ class SearchBooks extends Component{
 
   booksBeenFound = false;
 
-  setBooksBeenFound = (books) => {
-    // bit to check if the .then returned a books array this isn't != undefined
+  matchedBooksFound = (books) => {
+    // bit to check if the .then returned a books array != undefined
+    // used again in the display component
     this.booksBeenFound = !((books === undefined || books.length === undefined));
-    return this.booksBeenFound
+    return this.booksBeenFound;
   }
  
 
   updateSearchBooks = (books) =>{
     // bit to handle updating after .then returned
-    if(this.setBooksBeenFound(books)) {
+    if(this.matchedBooksFound(books)) {
       this.mergeShelfRecords(books, this.props.books);
     }
     this.setState(() => ({searchBooks: books}));
@@ -51,12 +52,11 @@ class SearchBooks extends Component{
 
   mergeShelfRecords = (Sbooks, myBooks) => {
     for (let sBk of  Sbooks){
-      for (let bk of  myBooks){
 
-        if(bk.id === sBk.id){
-          sBk.shelf=bk.shelf;
-        }
-      }
+      const myBk = myBooks.find((book) => book.id === sBk.id)
+      if(myBk !== undefined){
+        sBk.shelf=myBk.shelf
+      } 
     }
   };
 
